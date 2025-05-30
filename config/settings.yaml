@@ -1,0 +1,100 @@
+llm:
+  model_name: "gemini/gemini-1.5-pro"
+  temperature: 0.1
+  max_tokens: 1024
+  max_retries: 3
+
+embedding:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+
+text_processing:
+  max_tokens_per_chunk: 500
+
+data_source:
+  path: "./data"
+  mode: "streaming"
+  file_filtering:
+    allowed_extensions:
+      - ".txt"
+      - ".md"
+      - ".markdown"
+      - ".rst"
+      - ".py"
+      - ".js"
+      - ".ts"
+      - ".java"
+      - ".cpp"
+      - ".c"
+      - ".h"
+      - ".json"
+      - ".yaml"
+      - ".yml"
+      - ".xml"
+      - ".csv"
+      - ".tsv"
+      - ".pdf"
+      - ".docx"
+      - ".doc"
+      - ".html"
+      - ".htm"
+      - ".log"
+      - ".sh"
+      - ".bash"
+      - ".zsh"
+      - ".sql"
+      - ".toml"
+      - ".ini"
+      - ".cfg"
+      - ".dockerfile"
+      - ".requirements"
+    allowed_filenames:
+      - "README"
+      - "LICENSE"
+      - "CHANGELOG"
+      - "INSTALL"
+      - "Makefile"
+      - "Dockerfile"
+      - "requirements.txt"
+      - "package.json"
+      - "setup.py"
+      - "pyproject.toml"
+    excluded_patterns:
+      - "*/.git/*"
+      - "*/.git"
+      - "**/.git/**"
+      - "**/.gitignore"
+      - "**/.gitattributes"
+      - "**/__pycache__/*"
+      - "**/.DS_Store"
+      - "**/.pytest_cache/*"
+      - "**/node_modules/*"
+      - "**/*.pyc"
+      - "**/*.pyo"
+      - "**/.vscode/*"
+      - "**/.idea/*"
+
+rag:
+  search_topk: 5
+  prompt_template: |
+    You are an assistant that analyzes file contents and explains them in a way that is easy for non-technical stakeholders to understand.
+
+    Use the following context information to answer the question:
+    {context}
+
+    Question: {query}
+
+    Guidelines for answering:
+    - When using technical terms, include a concise explanation
+    - Explain the purpose and functionality of the code in a way that is easy to understand
+    - Include the business impact and meaning
+    - Use examples and analogies to make it easy to understand
+    - If the information is insufficient, answer honestly with "I don't have enough information to answer that question"
+
+server:
+  host: "0.0.0.0"
+  port: 8000
+  with_cache: true
+
+development:
+  debug_logging: false
+  show_file_list: true

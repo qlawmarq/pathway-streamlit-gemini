@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  pathway-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pathway-backend
+    env_file:
+      - .env
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - PATHWAY_REST_HOST=0.0.0.0
+      - PATHWAY_REST_PORT=8000
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+    ports:
+      - "8000:8000"
+    networks:
+      - pathway-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/statistics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  streamlit-ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    container_name: streamlit-ui
+    environment:
+      - PATHWAY_REST_PORT=8000
+    ports:
+      - "8501:8501"
+    depends_on:
+      - pathway-backend
+    networks:
+      - pathway-network
+
+networks:
+  pathway-network:
+    driver: bridge
+
+volumes:
+  pathway-data:
