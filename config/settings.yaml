@@ -23,6 +23,7 @@ data_source:
       - ".js"
       - ".ts"
       - ".java"
+      - ".go"
       - ".cpp"
       - ".c"
       - ".h"
@@ -72,6 +73,12 @@ data_source:
       - "**/*.pyo"
       - "**/.vscode/*"
       - "**/.idea/*"
+      - "**/.env"
+      - "**/.env.local"
+      - "**/.env.development"
+      - "**/.env.production"
+      - "**/.env.test"
+      - "**/.env.example"
 
 rag:
   search_topk: 5
@@ -84,11 +91,12 @@ rag:
     Question: {query}
 
     Guidelines for answering:
-    - When using technical terms, include a concise explanation
-    - Explain the purpose and functionality of the code in a way that is easy to understand
-    - Include the business impact and meaning
-    - Use examples and analogies to make it easy to understand
-    - If the information is insufficient, answer honestly with "I don't have enough information to answer that question"
+    - When using technical terms, include a concise explanation.
+    - Explain the purpose and functionality of the code in a way that is easy to understand.
+    - Include the business impact and meaning.
+    - Use examples and analogies to make it easy to understand.
+    - Use same language as the question.
+    - If the information is insufficient, answer honestly with "I don't have enough information to answer that question".
 
 server:
   host: "0.0.0.0"
